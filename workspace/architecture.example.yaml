@@ -1,0 +1,47 @@
+# ==============================================================================
+# BoxDSL Architecture Template
+# ==============================================================================
+# This file defines the software architecture using modules called "boxes".
+# Copy this file to 'architecture.yaml' to begin building your system.
+# ==============================================================================
+
+# Name of the entire system
+system: "MyProject"
+
+# Global settings and constraints applied to every box in the system
+global:
+  constraints:
+    - "Maintain professional coding standards"
+    - "Use clean architecture patterns"
+    - "Ensure comprehensive error handling"
+
+# Define your modules (boxes) here
+boxes:
+  # Examples of different box types:
+
+  # 1. Service: Contains business logic, stateless by default.
+  - name: "UserService"
+    type: "service"
+    responsibility: "Manages user-related business operations and rules."
+    constraints:
+      - "stateless"
+      - "no_direct_db_access"
+    depends_on:
+      - "UserRepository"
+      - "EmailAdapter"
+
+  # 2. Repository: Handles persistence and data access logic.
+  - name: "UserRepository"
+    type: "repository"
+    responsibility: "Abstracts database access for User entities."
+    constraints:
+      - "database_access"
+
+  # 3. Adapter: Entry or exit point (HTTP, CLI, external APIs).
+  - name: "EmailAdapter"
+    type: "adapter"
+    responsibility: "Handles communication with external SMTP services."
+    constraints:
+      - "external_api_access"
+
+  # Add more boxes as your architecture grows...
