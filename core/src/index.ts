@@ -1,9 +1,18 @@
 import * as fs from "fs";
 import * as path from "path";
+import { ZodError } from "zod";
 import { parseArchitecture } from "./parse";
 import { SystemGraph } from "./graph";
 import { validateDependencies } from "./validateGraph";
 import { generateDocs } from "./generator";
+
+function formatZodError(error: ZodError): string {
+  const issues = error.issues.map((issue) => {
+    const pathLabel = issue.path.length > 0 ? `[${issue.path.join(".")}]` : "root";
+    return `   - Location: ${pathLabel}\n     Detail: ${issue.message}`;
+  });
+  return `Schema Validation failed:\n${issues.join("\n")}`;
+}
 
 function main() {
   // Grab the file path from the command line, or default to the workspace test file
@@ -32,7 +41,7 @@ function main() {
     // 4. Validate Dependencies & Cycles
     validateDependencies(systemGraph);
     console.log(`✅ Architecture validation passed! No missing or circular dependencies.\n`);
-    
+
     // 5. Generate Orchestration Documents
     const docsDir = path.resolve(__dirname, "../../workspace/docs");
     console.log(`🔨 Generating orchestration blueprints in: ${docsDir}...`);
@@ -46,7 +55,13 @@ function main() {
     console.error(`\n================================`);
     console.error(`🛠️  ARCHITECTURE ERROR DETECTED `);
     console.error(`================================\n`);
-    console.error(error.message || error);
+    
+    if (error instanceof ZodError) {
+      console.error(formatZodError(error));
+    } else {
+      console.error(`❌ ${error.message || error}`);
+    }
+    
     console.error(`\n================================\n`);
     process.exit(1);
   }
