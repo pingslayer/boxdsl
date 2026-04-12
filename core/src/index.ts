@@ -3,6 +3,7 @@ import * as path from "path";
 import { parseArchitecture } from "./parse";
 import { SystemGraph } from "./graph";
 import { validateDependencies } from "./validateGraph";
+import { generateDocs } from "./generator";
 
 function main() {
   // Grab the file path from the command line, or default to the workspace test file
@@ -32,6 +33,12 @@ function main() {
     validateDependencies(systemGraph);
     console.log(`✅ Architecture validation passed! No missing or circular dependencies.\n`);
     
+    // 5. Generate Orchestration Documents
+    const docsDir = path.resolve(__dirname, "../../workspace/docs");
+    console.log(`🔨 Generating orchestration blueprints in: ${docsDir}...`);
+    const generated = generateDocs(systemGraph, docsDir);
+    console.log(`✅ Success: Generated ${generated.length} documents:\n   - ${generated.join("\n   - ")}\n`);
+
     console.log(`🎉 READY FOR AI GENERATION PIPELINE!`);
 
   } catch (error: any) {

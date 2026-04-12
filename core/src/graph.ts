@@ -33,4 +33,24 @@ export class SystemGraph {
   public getAllBoxes(): Box[] {
     return Array.from(this.boxes.values());
   }
+
+  /**
+   * Returns a list of all box names in the graph.
+   */
+  public getBoxNames(): string[] {
+    return Array.from(this.boxes.keys());
+  }
+
+  /**
+   * Returns a box with global constraints merged into its local constraints.
+   */
+  public getMergedBox(name: string): Box | undefined {
+    const box = this.getBox(name);
+    if (!box) return undefined;
+
+    return {
+      ...box,
+      constraints: [...new Set([...this.globalConstraints, ...box.constraints])]
+    };
+  }
 }
