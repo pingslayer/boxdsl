@@ -16,9 +16,10 @@ export const BoxSchema = z.object({
   outputs: z.array(z.string()).optional().default([])
 });
 
-// We define the global settings, which includes global constraints
+// We define the global settings, which includes global constraints and infrastructure
 export const GlobalSchema = z.object({
-  constraints: z.array(z.string()).optional().default([])
+  constraints: z.array(z.string()).optional().default([]),
+  infrastructure: z.array(z.string()).optional().default([])
 });
 
 // The final Architecture Schema pulls it all together

@@ -35,6 +35,37 @@ export function generateDocs(graph: SystemGraph, outputDir: string): string[] {
   return generatedFiles;
 }
 
+/**
+ * Generates a system-level infrastructure blueprint mapping the Docker/Environment requirements.
+ */
+export function generateInfrastructureDoc(graph: SystemGraph, outputDir: string): string {
+  const infrastructure = graph.infrastructure.length > 0
+    ? graph.infrastructure.map(i => `- ${i}`).join("\n")
+    : "- No specific infrastructure requirements defined.";
+
+  const markdown = `# System Infrastructure Blueprint
+**System**: ${graph.systemName}
+
+## Overview
+This document outlines the environmental and infrastructure requirements for the ${graph.systemName} project. Any AI orchestration or developer implementation must adhere to these specifications to ensure environment consistency.
+
+## Environment Requirements
+${infrastructure}
+
+## Mandatory Containerization
+> [!IMPORTANT]
+> **Docker Implementation Required (System Default)**
+> This project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` in the root directory. All services defined in the architecture must be orchestratable via Docker Compose to ensure a "one-command" setup and environment parity.
+
+---
+*System-generated documentation provided by the BoxDSL Engine.*
+`;
+
+  const filePath = path.join(outputDir, "Infrastructure.md");
+  fs.writeFileSync(filePath, markdown, "utf-8");
+  return "Infrastructure.md";
+}
+
 function createMarkdownTemplate(box: Box, systemName: string): string {
   const constraints = box.constraints.length > 0 
     ? box.constraints.map(c => `- ${c}`).join("\n") 

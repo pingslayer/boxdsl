@@ -3,11 +3,13 @@ import { Architecture, Box } from "./schema";
 export class SystemGraph {
   private boxes: Map<string, Box>;
   public globalConstraints: string[];
+  public infrastructure: string[];
   public systemName: string;
 
   constructor(architecture: Architecture) {
     this.systemName = architecture.system;
     this.globalConstraints = architecture.global?.constraints || [];
+    this.infrastructure = architecture.global?.infrastructure || [];
     
     // Create a fast lookup dictionary (Map) for our boxes
     this.boxes = new Map();

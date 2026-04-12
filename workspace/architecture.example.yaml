@@ -25,6 +25,15 @@ global:
     - "Ensure GDPR compliance for all data handling"
     - "Professional coding standards (SOLID, DRY) are mandatory"
 
+# 3. Global Infrastructure (The Environment)
+# ----------------------------------------
+# Define your tech stack here. Note: BoxDSL automatically enforces Docker and 
+# Docker Compose orchestration by default in the generated blueprints.
+  infrastructure:
+    - "Base Runtime: Node.js 20 (Alpine)"
+    - "Database: PostgreSQL 15"
+    - "Cache: Redis 7"
+
 # 3. Box Definitions (The Graph)
 # ------------------------------
 # Define your modules here. Each box represents an isolated unit of software.
