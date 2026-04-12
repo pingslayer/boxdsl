@@ -1,0 +1,18 @@
+{
+  "name": "boxdsl-engine",
+  "version": "1.0.0",
+  "description": "BoxDSL Core Engine for parsing and validating software architecture.",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "yaml": "^2.3.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

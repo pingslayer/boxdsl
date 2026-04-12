@@ -1,0 +1,16 @@
+BoxDSL File (YAML)
+        ↓
+Parser
+        ↓
+Schema Validation (Zod)
+        ↓
+Graph Construction
+        ↓
+Graph Validation
+        ↓
+Constraint Engine
+        ↓
+Execution Plan
+        ↓
+AI Code Generation (future)
+
