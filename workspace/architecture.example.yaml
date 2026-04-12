@@ -1,47 +1,89 @@
 # ==============================================================================
-# BoxDSL Architecture Template
+# BoxDSL: Architecture Master Template
 # ==============================================================================
-# This file defines the software architecture using modules called "boxes".
-# Copy this file to 'architecture.yaml' to begin building your system.
+# This document defines the software architecture for an AI-driven SDLC.
+# 
+# Instructions:
+# 1. Use this file as a reference for syntax and architectural best practices.
+# 2. Copy the contents to 'architecture.yaml' to trigger the BoxDSL Engine.
+# 3. The Engine will validate your graph and generate orchestration documents.
 # ==============================================================================
 
-# Name of the entire system
-system: "MyProject"
+# 1. System Identity
+# ------------------
+# The root name of your application. Used as context in all generated docs.
+system: "EnterpriseStore"
 
-# Global settings and constraints applied to every box in the system
+# 2. Global Constraints
+# ---------------------
+# These rules are enforced system-wide. Every module (box) created will 
+# automatically inherit these constraints in their orchestration blueprints.
 global:
   constraints:
-    - "Maintain professional coding standards"
-    - "Use clean architecture patterns"
-    - "Ensure comprehensive error handling"
+    - "Strict adherence to Clean Architecture principles"
+    - "All business logic must be platform-agnostic (Type-only implementation)"
+    - "Ensure GDPR compliance for all data handling"
+    - "Professional coding standards (SOLID, DRY) are mandatory"
 
-# Define your modules (boxes) here
+# 3. Box Definitions (The Graph)
+# ------------------------------
+# Define your modules here. Each box represents an isolated unit of software.
 boxes:
-  # Examples of different box types:
 
-  # 1. Service: Contains business logic, stateless by default.
-  - name: "UserService"
-    type: "service"
-    responsibility: "Manages user-related business operations and rules."
+  # --- Example: A Business Logic Service ---
+  - name: "OrderService"
+    type: "service" # Roles: service, repository, adapter
+    responsibility: "Orchestrates the lifecycle of a customer order from creation to fulfillment."
+    
+    # Box-Level Constraints: Specific to this module only.
     constraints:
-      - "stateless"
-      - "no_direct_db_access"
+      - "stateless: No internal session state allowed"
+      - "transactional: All order operations must be atomic"
+    
+    # Interface Specification: The "Data Contract" for the AI/Developer.
+    inputs:
+      - "OrderPayload"
+      - "CustomerID"
+    outputs:
+      - "OrderID"
+      - "FulfillmentStatus"
+
+    # Dependency Map: Modules this box is allowed to communicate with.
+    # The Engine will check for missing boxes and circular loops (e.g., A -> B -> A).
     depends_on:
-      - "UserRepository"
-      - "EmailAdapter"
+      - "InventoryRepository"
+      - "PaymentAdapter"
 
-  # 2. Repository: Handles persistence and data access logic.
-  - name: "UserRepository"
+  # --- Example: A Data Persistence Layer ---
+  - name: "InventoryRepository"
     type: "repository"
-    responsibility: "Abstracts database access for User entities."
+    responsibility: "Handles persistence and querying for stock levels and product catalogs."
     constraints:
-      - "database_access"
+      - "database_access: Direct read/write permitted"
+      - "caching: Must implement a 5-minute TTL on stock queries"
+    inputs:
+      - "ProductID"
+      - "QuantityDelta"
+    outputs:
+      - "CurrentStockLevel"
 
-  # 3. Adapter: Entry or exit point (HTTP, CLI, external APIs).
-  - name: "EmailAdapter"
+  # --- Example: External System Adapter ---
+  - name: "PaymentAdapter"
     type: "adapter"
-    responsibility: "Handles communication with external SMTP services."
+    responsibility: "Integrates with Stripe API for secure credit card processing."
     constraints:
-      - "external_api_access"
+      - "external_api_access: Authorized to communicate with stripe.com"
+      - "no_local_storage: Credit card data must never touch the local database"
+    inputs:
+      - "OrderID"
+      - "Amount"
+      - "PaymentMethodID"
+    outputs:
+      - "TransactionHash"
+      - "SuccessFlag"
 
-  # Add more boxes as your architecture grows...
+# ==============================================================================
+# PRO-TIP: 
+# Once you save your 'architecture.yaml', run 'npm start' in the core folder.
+# The engine will generate isolated .md blueprints in 'workspace/docs/'.
+# ==============================================================================
