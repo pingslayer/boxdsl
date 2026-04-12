@@ -1,0 +1,25 @@
+system: "MyApp"
+
+global:
+  constraints:
+    - "Keep the UI consistent throughout the app"
+    - "Maintain professional coding standards"
+
+boxes:
+  - name: UserAuth
+    type: service
+    responsibility: "Handle authentication"
+    constraints:
+      - stateless
+    depends_on:
+      - TokenService
+
+  - name: TokenService
+    type: service
+    depends_on:
+      - UserRepository
+
+  - name: UserRepository
+    type: repository
+    depends_on:
+      - UserAuth    # Intentionally creates a circular dependency!
