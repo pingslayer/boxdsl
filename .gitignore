@@ -9,3 +9,5 @@ workspace/requirements/*
 
 workspace/src/*
 !workspace/src/.gitkeep
+
+core/node_modules/
