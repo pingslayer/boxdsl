@@ -1,10 +1,11 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as readline from "readline";
 import { ZodError } from "zod";
 import { parseArchitecture } from "./parse";
 import { SystemGraph } from "./graph";
 import { validateDependencies } from "./validateGraph";
-import { generateDocs, generateInfrastructureDoc, generateSequenceDoc } from "./generator";
+import { generateDocs, generateInfrastructureDoc, generateSequenceDoc, generateOnboardingPrompt } from "./generator";
 
 function formatZodError(error: ZodError): string {
   const issues = error.issues.map((issue) => {
@@ -14,7 +15,7 @@ function formatZodError(error: ZodError): string {
   return `Schema Validation failed:\n${issues.join("\n")}`;
 }
 
-function main() {
+async function main() {
   // Grab the file path from the command line, or default to the workspace test file
   const relativePath = process.argv[2] || "../workspace/architecture.yaml";
   const absolutePath = path.resolve(__dirname, "..", relativePath);
@@ -57,9 +58,33 @@ function main() {
     console.log(`🔨 Calculating implementation sequence...`);
     const sequence = systemGraph.getExecutionSequence();
     const sequenceFile = generateSequenceDoc(systemGraph, sequence, docsDir);
-    console.log(`✅ Success: Generated ${sequenceFile}\n`);
+    console.log(`✅ Success: Generated ${sequenceFile}`);
+
+    const defaultPersona = "expert full-stack developer specializing in Clean Architecture";
+    let personaResponse = defaultPersona;
+
+    if (process.stdin.isTTY) {
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+
+      personaResponse = await new Promise((resolve) => {
+        rl.question(`\n🤖 Define the Target AI Persona [${defaultPersona}]: `, (answer) => {
+          resolve(answer.trim() || defaultPersona);
+          rl.close();
+        });
+      });
+    } else {
+      console.log(`\nℹ️  Non-interactive environment detected. Using default persona.`);
+    }
+
+    console.log(`🔨 Creating master onboarding prompt for: "${personaResponse}"...`);
+    const promptFile = generateOnboardingPrompt(systemGraph, docsDir, personaResponse);
+    console.log(`✅ Success: Generated ${promptFile}\n`);
 
     console.log(`🎉 READY FOR AI GENERATION PIPELINE!`);
+    process.exit(0);
 
   } catch (error: any) {
     // We catch our custom errors and print them beautifully to the user
@@ -78,4 +103,7 @@ function main() {
   }
 }
 
-main();
+main().catch(err => {
+  console.error("Fatal error during execution:", err);
+  process.exit(1);
+});

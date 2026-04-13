@@ -100,6 +100,56 @@ ${milestoneSections}
   return "Implementation-Sequence.md";
 }
 
+/**
+ * Generates a master onboarding prompt for other AI agents to consume.
+ */
+export function generateOnboardingPrompt(graph: SystemGraph, outputDir: string, persona: string): string {
+  const infraStr = graph.infrastructure.join(", ");
+  
+  const markdown = `# AI Onboarding Prompt: ${graph.systemName}
+
+> [!NOTE]
+> **Instructions for the Architect**
+> Copy the entire block below and paste it into a fresh session with an AI agent (like Antigravity, ChatGPT, or Claude) to begin the implementation phase.
+
+---
+
+\`\`\`markdown
+# MISSION: Software Implementation for ${graph.systemName}
+
+You are an ${persona}. Your mission is to implement the **${graph.systemName}** system based on strict **BoxDSL** blueprints.
+
+## 🛠️ The Tech Stack
+- **Architecture**: BoxDSL (Strict Dependency Graph)
+- **Environment**: ${infraStr}
+- **Containerization**: Mandatory (Dockerfile & docker-compose.yml required)
+
+## 📂 The Blueprint Library
+You have access to a directory of orchestration documents in \`workspace/docs/\`. These are your source of truth.
+1. **Infrastructure**: \`Infrastructure.md\`
+2. **Strategy/Order**: \`Implementation-Sequence.md\`
+3. **Module Blueprints**: \`[BoxName].md\`
+
+## 🛡️ The Rules of Engagement
+1. **No Hallucinations**: You are strictly forbidden from implementing features, routes, or modules not defined in the BoxDSL graph.
+2. **Strict Isolation**: A module (Box) may **only** interact with the dependencies listed in its \`depends_on\` section. No exceptions.
+3. **Bottom-Up Implementation**: We build from the foundation upwards. Refer to the \`Implementation-Sequence.md\` for the correct order.
+4. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
+
+## 🚀 STARTING THE WORK
+Do not implement everything at once. We will follow a Phase-Based workflow:
+- **Phase 1**: Setup the environment (Infrastructure).
+- **Phase 2**: Implement the "Foundation" boxes (Milestone 1).
+
+**Acknowledge this mission and I will provide the first blueprint from the Implementation Sequence.**
+\`\`\`
+`;
+
+  const filePath = path.join(outputDir, "AI-Onboarding-Prompt.md");
+  fs.writeFileSync(filePath, markdown, "utf-8");
+  return "AI-Onboarding-Prompt.md";
+}
+
 function getMilestoneTitle(index: number, boxNames: string[], graph: SystemGraph): string {
   const types = boxNames.map(name => graph.getBox(name)?.type);
   if (types.every(t => t === 'repository')) return "Persistence Foundation";
