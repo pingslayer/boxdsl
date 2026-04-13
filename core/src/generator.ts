@@ -132,9 +132,10 @@ You have access to a directory of orchestration documents in \`workspace/docs/\`
 
 ## 🛡️ The Rules of Engagement
 1. **No Hallucinations**: You are strictly forbidden from implementing features, routes, or modules not defined in the BoxDSL graph.
-2. **Strict Isolation**: A module (Box) may **only** interact with the dependencies listed in its \`depends_on\` section. No exceptions.
-3. **Bottom-Up Implementation**: We build from the foundation upwards. Refer to the \`Implementation-Sequence.md\` for the correct order.
-4. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
+2. **Directory Isolation**: ALL source code, project files, and implementation tasks MUST take place within the \`workspace/src/\` directory. Do not modify files in \`core/\` or \`workspace/docs/\`.
+3. **Strict Isolation**: A module (Box) may **only** interact with the dependencies listed in its \`depends_on\` section. No exceptions.
+4. **Bottom-Up Implementation**: We build from the foundation upwards. Refer to the \`Implementation-Sequence.md\` for the correct order.
+5. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
 
 ## 🚀 STARTING THE WORK
 Do not implement everything at once. We will follow a Phase-Based workflow:
