@@ -131,10 +131,11 @@ You are an ${persona}. Your mission is to implement the **${graph.systemName}** 
 - **Containerization**: Mandatory (Dockerfile & docker-compose.yml required)
 
 ## 📂 The Blueprint Library
-You have access to a directory of orchestration documents in \`workspace/docs/\`. These are your source of truth.
-1. **Infrastructure**: \`Infrastructure.md\`
-2. **Strategy/Order**: \`Implementation-Sequence.md\`
-3. **Module Blueprints**: \`[BoxName].md\`
+You have access to the following project data. These are your absolute source of truth:
+1. **Business Logic**: All files in \`workspace/requirements/\` (Read these first to understand goals).
+2. **Infrastructure**: \`workspace/docs/Infrastructure.md\`
+3. **Strategy/Order**: \`workspace/docs/Implementation-Sequence.md\`
+4. **Module Blueprints**: \`workspace/docs/[BoxName].md\` (Strict data contracts).
 
 ## 🛡️ The Rules of Engagement
 1. **No Hallucinations**: You are strictly forbidden from implementing features, routes, or modules not defined in the BoxDSL graph.
