@@ -66,6 +66,48 @@ ${infrastructure}
   return "Infrastructure.md";
 }
 
+/**
+ * Generates the master Implementation-Sequence blueprint using a topological sort.
+ */
+export function generateSequenceDoc(graph: SystemGraph, layers: string[][], outputDir: string): string {
+  const milestoneSections = layers.map((layer, index) => {
+    const boxes = layer.map(name => {
+      const box = graph.getBox(name);
+      return `- **${name}** (${box?.type.toUpperCase()}): ${box?.responsibility}`;
+    }).join("\n");
+
+    return `### Milestone ${index + 1}: ${getMilestoneTitle(index, layer, graph)}
+${boxes}`;
+  }).join("\n\n");
+
+  const markdown = `# Implementation Sequence: ${graph.systemName}
+**Total Milestones**: ${layers.length}
+
+## Overview
+This document provides the mandatory "Bottom-Up" implementation order for the project. To ensure architectural integrity and minimize code rework, follow these milestones in sequence. Do not implement a box until its dependencies in previous milestones are completed.
+
+## Strategy
+We start with self-contained boxes (usually Repositories) and move upwards through business logic (Services) to high-level interfaces (Adapters).
+
+${milestoneSections}
+
+---
+*System-generated documentation provided by the BoxDSL Engine.*
+`;
+
+  const filePath = path.join(outputDir, "Implementation-Sequence.md");
+  fs.writeFileSync(filePath, markdown, "utf-8");
+  return "Implementation-Sequence.md";
+}
+
+function getMilestoneTitle(index: number, boxNames: string[], graph: SystemGraph): string {
+  const types = boxNames.map(name => graph.getBox(name)?.type);
+  if (types.every(t => t === 'repository')) return "Persistence Foundation";
+  if (types.every(t => t === 'service')) return "Business Logic Layer";
+  if (types.every(t => t === 'adapter')) return "Interface & Delivery";
+  return `System Integration Layer ${index + 1}`;
+}
+
 function createMarkdownTemplate(box: Box, systemName: string): string {
   const constraints = box.constraints.length > 0 
     ? box.constraints.map(c => `- ${c}`).join("\n") 

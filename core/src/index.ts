@@ -4,7 +4,7 @@ import { ZodError } from "zod";
 import { parseArchitecture } from "./parse";
 import { SystemGraph } from "./graph";
 import { validateDependencies } from "./validateGraph";
-import { generateDocs, generateInfrastructureDoc } from "./generator";
+import { generateDocs, generateInfrastructureDoc, generateSequenceDoc } from "./generator";
 
 function formatZodError(error: ZodError): string {
   const issues = error.issues.map((issue) => {
@@ -51,7 +51,13 @@ function main() {
     // 6. Generate Infrastructure Doc
     console.log(`🔨 Generating infrastructure blueprint...`);
     const infraFile = generateInfrastructureDoc(systemGraph, docsDir);
-    console.log(`✅ Success: Generated ${infraFile}\n`);
+    console.log(`✅ Success: Generated ${infraFile}`);
+
+    // 7. Generate Execution Sequence
+    console.log(`🔨 Calculating implementation sequence...`);
+    const sequence = systemGraph.getExecutionSequence();
+    const sequenceFile = generateSequenceDoc(systemGraph, sequence, docsDir);
+    console.log(`✅ Success: Generated ${sequenceFile}\n`);
 
     console.log(`🎉 READY FOR AI GENERATION PIPELINE!`);
 
