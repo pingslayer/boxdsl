@@ -1,8 +1,0 @@
-boxdsl/
-  src/
-    schema.ts          # Zod schema definitions
-    parse.ts           # YAML parsing + validation
-    graph.ts           # Graph construction
-    validateGraph.ts   # Dependency validation
-    index.ts           # CLI entry point
-
