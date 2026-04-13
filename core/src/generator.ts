@@ -81,10 +81,16 @@ ${boxes}`;
   }).join("\n\n");
 
   const markdown = `# Implementation Sequence: ${graph.systemName}
-**Total Milestones**: ${layers.length}
+**Total Milestones**: ${layers.length + 1}
 
 ## Overview
 This document provides the mandatory "Bottom-Up" implementation order for the project. To ensure architectural integrity and minimize code rework, follow these milestones in sequence. Do not implement a box until its dependencies in previous milestones are completed.
+
+## Milestone 0: Project Scaffolding
+Before implementing any boxes, you MUST establish the project framework:
+- Initialize the target project in \`workspace/src/\` (e.g., \`composer create-project\` or similar).
+- Configure the environment files (.env) according to the infrastructure blueprint.
+- Ensure the base framework structure is in place before proceeding to Milestone 1.
 
 ## Strategy
 We start with self-contained boxes (usually Repositories) and move upwards through business logic (Services) to high-level interfaces (Adapters).
@@ -138,9 +144,15 @@ You have access to a directory of orchestration documents in \`workspace/docs/\`
 5. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
 
 ## 🚀 STARTING THE WORK
-Do not implement everything at once. We will follow a Phase-Based workflow:
+Do not implement everything at once. You MUST follow this **Checklist Protocol**:
+1. **Milestone Plan**: Before writing any code for a milestone, provide a detailed file-by-file plan of what you intend to do.
+2. **User Approval**: Wait for the user to say "Proceed with plan" before executing.
+3. **Execution**: Implement the milestone exactly as planned.
+
+### The Phased Workflow:
 - **Phase 1**: Setup the environment (Infrastructure). Create the \`Dockerfile\` and \`docker-compose.yml\` **only** inside the \`workspace/src/\` directory.
-- **Phase 2**: Implement the "Foundation" boxes (Milestone 1) within the \`workspace/src/\` directory.
+- **Phase 2**: **Milestone 0 - Project Scaffolding.** Establish the Laravel/Vue framework boilerplate in \`workspace/src/\`.
+- **Phase 3**: Milestone 1 - Implement the "Foundation" boxes (Repositories) within the \`workspace/src/\` directory.
 
 **Acknowledge this mission and I will provide the first blueprint from the Implementation Sequence.**
 \`\`\`
