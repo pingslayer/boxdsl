@@ -55,7 +55,7 @@ ${infrastructure}
 ## Mandatory Containerization
 > [!IMPORTANT]
 > **Docker Implementation Required (System Default)**
-> This project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` in the root directory. All services defined in the architecture must be orchestratable via Docker Compose to ensure a "one-command" setup and environment parity.
+> The project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` located **specifically within the \`workspace/src/\` directory**. ALL source code and orchestration must be contained in this folder to ensure absolute isolation from the BoxDSL core.
 
 ---
 *System-generated documentation provided by the BoxDSL Engine.*
@@ -139,8 +139,8 @@ You have access to a directory of orchestration documents in \`workspace/docs/\`
 
 ## 🚀 STARTING THE WORK
 Do not implement everything at once. We will follow a Phase-Based workflow:
-- **Phase 1**: Setup the environment (Infrastructure).
-- **Phase 2**: Implement the "Foundation" boxes (Milestone 1).
+- **Phase 1**: Setup the environment (Infrastructure). Create the \`Dockerfile\` and \`docker-compose.yml\` **only** inside the \`workspace/src/\` directory.
+- **Phase 2**: Implement the "Foundation" boxes (Milestone 1) within the \`workspace/src/\` directory.
 
 **Acknowledge this mission and I will provide the first blueprint from the Implementation Sequence.**
 \`\`\`
