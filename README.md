@@ -70,44 +70,43 @@ Once the engine runs successfully, it populates `workspace/docs/` with specializ
 
 - **`Infrastructure.md`**: Commands the AI to set up the Docker/Compose environment.
 - **`Implementation-Sequence.md`**: The auto-calculated "Bottom-Up" roadmap. It groups boxes into topological milestones (Persistence -> Logic -> Interface) to ensure zero context-mismatch during build.
-- **`[BoxName].md`**: Individual---
+- **`[BoxName].md`**: Individual
 
-## 🛠️ Project Structure
+## 🛠️ "Plug-and-Play" Project Structure
 
-- **/core**: The BoxDSL Engine tool (Schema validation, Graph analysis, Blueprint generation).
-- **/requirements**: Your business logic and client specifications.
-- **/docs**: System-generated orchestration blueprints.
-- **architecture.yaml**: Your system design file.
-- **[App Files]**: Your scaffolded project (e.g., `app/`, `database/`, `config/`).
+This folder contains the complete **BoxDSL Orchestration Suite**. You can copy this entire directory into any project root to manage its architecture.
+
+- **`/src`**: The BoxDSL Engine tool (Source).
+- **`/requirements`**: Your business logic and client specifications.
+- **`/docs`**: System-generated orchestration blueprints.
+- **`architecture.yaml`**: Your system design file.
+- **`package.json`**: Engine dependencies and control scripts.
 
 ---
 
 ## 🤖 AI Implementation Workflow
 
-BoxDSL operates as a **Satellite Tool** within your project. To maintain absolute control, follow this phase-based orchestration strategy:
+BoxDSL operates as a **Satellite Architect** for the parent project. To maintain absolute control, follow this phase-based orchestration strategy:
 
 ### Phase 1: Environment Orchestration
 **Input**: `./docs/Infrastructure.md`  
-**Goal**: Set up the containerized environment (`Dockerfile`, `docker-compose.yml`) at the repo root.
+**Goal**: The AI creates the containerized environment (`Dockerfile`, `docker-compose.yml`) in the **parent directory (`../`)**.
 
 ### Phase 2: Strategic Goal Alignment
 **Input**: `./requirements/*.md`  
-**Goal**: Injection of the "Business Voice." Ensure the AI understands the problem statement before writing code.
+**Goal**: Injection of the "Business Voice." AI reads the parent context and local requirements before writing code.
 
-### Phase 3: Project Scaffolding (Milestone 0)
-**Goal**: Initialize your framework boilerplate (e.g. `laravel new`) directly at the repo root.
-
-### Phase 4: The "Box-by-Box" Factory
+### Phase 3: The "Box-by-Box" Factory
 **Input**: A single `./docs/[Box].md`  
-**Goal**: Implementation of a specific module at the repo root. Strictly enforce the `depends_on` and `constraints`.
+**Goal**: Implementation of a specific module in the **parent directory (`../`)**. Strictly enforce `depends_on` and `constraints`.
 
 ---
 
 ## 🛡️ Preventing Hallucinations
 
+- **Manual Handover**: After every implementation, the AI MUST provide a manual test guide and wait for user sign-off.
 - **Isolation Rule**: If an AI tries to call a module NOT listed in a blueprint's `depends_on` section, reject the code immediately.
-- **Topological Order**: Always implement boxes from the "Bottom-Up" (Repositories -> Services -> Adapters). Refer to `./docs/Implementation-Sequence.md` for the auto-calculated roadmap.
-- **Strict Stop**: If an AI suggests a feature not in your architecture, stop the implementation. Update the `architecture.yaml`, regenerate the blueprints, and then resume.
+- **Topological Order**: Build from the "Bottom-Up" (Repositories -> Services -> Adapters). Refer to `./docs/Implementation-Sequence.md`.
 
 ---
 

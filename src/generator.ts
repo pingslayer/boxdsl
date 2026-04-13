@@ -55,7 +55,7 @@ ${infrastructure}
 ## Mandatory Containerization
 > [!IMPORTANT]
 > **Docker Implementation Required (System Default)**
-> The project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` located **specifically within the project root directory (\`./\`)**. ALL source code and orchestration must be contained in this root to ensure absolute isolation from the BoxDSL core.
+> The project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` located **specifically within the project parent directory (\`../\`)**. ALL source code and orchestration must be contained in that parent folder to ensure absolute isolation from the BoxDSL tool.
 
 ---
 *System-generated documentation provided by the BoxDSL Engine.*
@@ -81,7 +81,7 @@ ${boxes}`;
   }).join("\n\n");
 
   const markdown = `# Implementation Sequence: ${graph.systemName}
-**Total Milestones**: ${layers.length + 1}
+**Total Milestones**: ${layers.length}
 
 ## Overview
 This document provides the mandatory "Bottom-Up" implementation order for the project. To ensure architectural integrity and minimize code rework, follow these milestones in sequence. Do not implement a box until its dependencies in previous milestones are completed.
@@ -133,7 +133,7 @@ You have access to the following project data. These are your absolute source of
 
 ## 🛡️ The Rules of Engagement
 1. **No Hallucinations**: You are strictly forbidden from implementing features, routes, or modules not defined in the BoxDSL graph.
-2. **Directory Isolation**: ALL source code, project files, and implementation tasks MUST take place within the project root directory (\`./\`). Do not modify files in \`core/\` or \`docs/\`.
+2. **Directory Isolation**: ALL source code, project files, and implementation tasks MUST take place within the project parent directory (\`../\`). Do not modify files inside this tool folder.
 3. **Strict Isolation**: A module (Box) may **only** interact with the dependencies listed in its \`depends_on\` section. No exceptions.
 4. **Bottom-Up Implementation**: We build from the foundation upwards. Refer to the \`Implementation-Sequence.md\` for the correct order.
 5. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
@@ -147,8 +147,8 @@ Do not implement everything at once. You MUST follow this **Checklist Protocol**
 5. **Wait for Validation**: You are forbidden from moving to the next box until the user confirms the manual test succeeded.
 
 ### The Phased Workflow:
-- **Phase 1**: Environment Orchestration. Create the \`Dockerfile\` and \`docker-compose.yml\` at the project root (\`./\`) for the existing framework.
-- **Phase 2**: Milestone Implementation. Build the boxes in the order defined in \`Implementation-Sequence.md\`.
+- **Phase 1**: Environment Orchestration. Create the \`Dockerfile\` and \`docker-compose.yml\` in the parent directory (\`../\`) for the existing framework.
+- **Phase 2**: Milestone Implementation. Build the boxes within the parent directory (\`../\`) in the order defined in \`Implementation-Sequence.md\`.
 
 **Acknowledge this mission and I will provide the first blueprint from the Implementation Sequence.**
 \`\`\`

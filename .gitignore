@@ -1,13 +1,10 @@
-workspace/architecture.yaml
+architecture.yaml
 
 # Ignore all content in these directories but keep the directories themselves
-workspace/docs/*
-!workspace/docs/.gitkeep
+docs/*
+!docs/.gitkeep
 
-workspace/requirements/*
-!workspace/requirements/.gitkeep
+requirements/*
+!requirements/.gitkeep
 
-workspace/src/*
-!workspace/src/.gitkeep
-
-core/node_modules/
+node_modules/

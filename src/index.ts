@@ -17,7 +17,7 @@ function formatZodError(error: ZodError): string {
 
 async function main() {
   // Grab the file path from the command line, or default to the root-level architecture file
-  const relativePath = process.argv[2] || "../architecture.yaml";
+  const relativePath = process.argv[2] || "architecture.yaml";
   const absolutePath = path.resolve(__dirname, "..", relativePath);
 
   console.log(`📦 BoxDSL Engine Starting...`);
@@ -44,7 +44,7 @@ async function main() {
     console.log(`✅ Architecture validation passed! No missing or circular dependencies.\n`);
 
     // 5. Generate Orchestration Documents
-    const docsDir = path.resolve(__dirname, "../../docs");
+    const docsDir = path.resolve(__dirname, "..", "docs");
     console.log(`🔨 Generating orchestration blueprints in: ${docsDir}...`);
     const generated = generateDocs(systemGraph, docsDir);
     console.log(`✅ Success: Generated ${generated.length} blueprints`);
