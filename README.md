@@ -70,38 +70,43 @@ Once the engine runs successfully, it populates `workspace/docs/` with specializ
 
 - **`Infrastructure.md`**: Commands the AI to set up the Docker/Compose environment.
 - **`Implementation-Sequence.md`**: The auto-calculated "Bottom-Up" roadmap. It groups boxes into topological milestones (Persistence -> Logic -> Interface) to ensure zero context-mismatch during build.
-- **`[BoxName].md`**: Individual blueprints for every box, listing specific responsibilities, inputs, outputs, and strict dependency rules.
+- **`[BoxName].md`**: Individual---
 
-**These documents are designed to be fed into an AI agent (like a coding assistant) as the primary instruction set for implementation.**
+## 🛠️ Project Structure
+
+- **/core**: The BoxDSL Engine tool (Schema validation, Graph analysis, Blueprint generation).
+- **/requirements**: Your business logic and client specifications.
+- **/docs**: System-generated orchestration blueprints.
+- **architecture.yaml**: Your system design file.
+- **[App Files]**: Your scaffolded project (e.g., `app/`, `database/`, `config/`).
 
 ---
 
 ## 🤖 AI Implementation Workflow
 
-To maintain absolute control and prevent architectural drift, follow this phase-based orchestration strategy when feeding BoxDSL blueprints to an AI builder:
+BoxDSL operates as a **Satellite Tool** within your project. To maintain absolute control, follow this phase-based orchestration strategy:
 
 ### Phase 1: Environment Orchestration
-**Input**: `workspace/docs/Infrastructure.md`  
-**Goal**: Set up the containerized environment (Dockerfile, Docker Compose) as the mandatory stage for all subsequent code.
+**Input**: `./docs/Infrastructure.md`  
+**Goal**: Set up the containerized environment (`Dockerfile`, `docker-compose.yml`) at the repo root.
 
 ### Phase 2: Strategic Goal Alignment
-**Input**: `workspace/requirements/*.md`  
-**Goal**: Injection of the "Business Voice." Ensure the AI understands the client's problem statement and success metrics before writing logic.
+**Input**: `./requirements/*.md`  
+**Goal**: Injection of the "Business Voice." Ensure the AI understands the problem statement before writing code.
 
-### Phase 3: The "Box-by-Box" Factory
-**Input**: A single `workspace/docs/[Box].md`  
-**Goal**: Implementation of a specific module in isolation. Strictly enforce the `depends_on` and `constraints` listed in the blueprint. **Never build multiple boxes in one prompt.**
+### Phase 3: Project Scaffolding (Milestone 0)
+**Goal**: Initialize your framework boilerplate (e.g. `laravel new`) directly at the repo root.
 
-### Phase 4: Integration & Assembly
-**Input**: Adapter blueprints (e.g., `HttpApiAdapter.md`)  
-**Goal**: Wiring the services together and connecting the frontend.
+### Phase 4: The "Box-by-Box" Factory
+**Input**: A single `./docs/[Box].md`  
+**Goal**: Implementation of a specific module at the repo root. Strictly enforce the `depends_on` and `constraints`.
 
 ---
 
 ## 🛡️ Preventing Hallucinations
 
 - **Isolation Rule**: If an AI tries to call a module NOT listed in a blueprint's `depends_on` section, reject the code immediately.
-- **Topological Order**: Always implement boxes from the "Bottom-Up" (Repositories -> Services -> Adapters). Refer to `workspace/docs/Implementation-Sequence.md` for the auto-calculated roadmap.
+- **Topological Order**: Always implement boxes from the "Bottom-Up" (Repositories -> Services -> Adapters). Refer to `./docs/Implementation-Sequence.md` for the auto-calculated roadmap.
 - **Strict Stop**: If an AI suggests a feature not in your architecture, stop the implementation. Update the `architecture.yaml`, regenerate the blueprints, and then resume.
 
 ---

@@ -55,7 +55,7 @@ ${infrastructure}
 ## Mandatory Containerization
 > [!IMPORTANT]
 > **Docker Implementation Required (System Default)**
-> The project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` located **specifically within the \`workspace/src/\` directory**. ALL source code and orchestration must be contained in this folder to ensure absolute isolation from the BoxDSL core.
+> The project MUST include a \`Dockerfile\` and a \`docker-compose.yml\` located **specifically within the project root directory (\`./\`)**. ALL source code and orchestration must be contained in this root to ensure absolute isolation from the BoxDSL core.
 
 ---
 *System-generated documentation provided by the BoxDSL Engine.*
@@ -86,14 +86,8 @@ ${boxes}`;
 ## Overview
 This document provides the mandatory "Bottom-Up" implementation order for the project. To ensure architectural integrity and minimize code rework, follow these milestones in sequence. Do not implement a box until its dependencies in previous milestones are completed.
 
-## Milestone 0: Project Scaffolding
-Before implementing any boxes, you MUST establish the project framework:
-- Initialize the target project in \`workspace/src/\` (e.g., \`composer create-project\` or similar).
-- Configure the environment files (.env) according to the infrastructure blueprint.
-- Ensure the base framework structure is in place before proceeding to Milestone 1.
-
 ## Strategy
-We start with self-contained boxes (usually Repositories) and move upwards through business logic (Services) to high-level interfaces (Adapters).
+We start with self-contained boxes (usually Repositories) and move upwards through business logic (Services) to high-level interfaces (Adapters). Each milestone implementation requires a manual sign-off after the user performs a guided test.
 
 ${milestoneSections}
 
@@ -132,14 +126,14 @@ You are an ${persona}. Your mission is to implement the **${graph.systemName}** 
 
 ## 📂 The Blueprint Library
 You have access to the following project data. These are your absolute source of truth:
-1. **Business Logic**: All files in \`workspace/requirements/\` (Read these first to understand goals).
-2. **Infrastructure**: \`workspace/docs/Infrastructure.md\`
-3. **Strategy/Order**: \`workspace/docs/Implementation-Sequence.md\`
-4. **Module Blueprints**: \`workspace/docs/[BoxName].md\` (Strict data contracts).
+1. **Business Logic**: All files in \`./requirements/\` (Read these first to understand goals).
+2. **Infrastructure**: \`./docs/Infrastructure.md\`
+3. **Strategy/Order**: \`./docs/Implementation-Sequence.md\`
+4. **Module Blueprints**: \`./docs/[BoxName].md\` (Strict data contracts).
 
 ## 🛡️ The Rules of Engagement
 1. **No Hallucinations**: You are strictly forbidden from implementing features, routes, or modules not defined in the BoxDSL graph.
-2. **Directory Isolation**: ALL source code, project files, and implementation tasks MUST take place within the \`workspace/src/\` directory. Do not modify files in \`core/\` or \`workspace/docs/\`.
+2. **Directory Isolation**: ALL source code, project files, and implementation tasks MUST take place within the project root directory (\`./\`). Do not modify files in \`core/\` or \`docs/\`.
 3. **Strict Isolation**: A module (Box) may **only** interact with the dependencies listed in its \`depends_on\` section. No exceptions.
 4. **Bottom-Up Implementation**: We build from the foundation upwards. Refer to the \`Implementation-Sequence.md\` for the correct order.
 5. **Validation Check**: Before returning any code, verify that it adheres to all constraints listed in the box blueprint.
@@ -149,11 +143,12 @@ Do not implement everything at once. You MUST follow this **Checklist Protocol**
 1. **Milestone Plan**: Before writing any code for a milestone, provide a detailed file-by-file plan of what you intend to do.
 2. **User Approval**: Wait for the user to say "Proceed with plan" before executing.
 3. **Execution**: Implement the milestone exactly as planned.
+4. **Manual Handover**: After implementation, you MUST provide a **Step-by-Step Manual Test Guide** for the user.
+5. **Wait for Validation**: You are forbidden from moving to the next box until the user confirms the manual test succeeded.
 
 ### The Phased Workflow:
-- **Phase 1**: Setup the environment (Infrastructure). Create the \`Dockerfile\` and \`docker-compose.yml\` **only** inside the \`workspace/src/\` directory.
-- **Phase 2**: **Milestone 0 - Project Scaffolding.** Establish the Laravel/Vue framework boilerplate in \`workspace/src/\`.
-- **Phase 3**: Milestone 1 - Implement the "Foundation" boxes (Repositories) within the \`workspace/src/\` directory.
+- **Phase 1**: Environment Orchestration. Create the \`Dockerfile\` and \`docker-compose.yml\` at the project root (\`./\`) for the existing framework.
+- **Phase 2**: Milestone Implementation. Build the boxes in the order defined in \`Implementation-Sequence.md\`.
 
 **Acknowledge this mission and I will provide the first blueprint from the Implementation Sequence.**
 \`\`\`
