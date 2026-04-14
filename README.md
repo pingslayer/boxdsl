@@ -147,4 +147,4 @@ BoxDSL operates as a **Satellite Architect** for the parent project. The AI agen
 ---
 
 ## ⚖️ License
-Internal Use / Prototype. Created for Advanced Agentic Coding workflows.
+Proprietary. All rights reserved. See [LICENSE](LICENSE) for details.

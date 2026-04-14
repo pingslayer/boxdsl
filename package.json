@@ -1,7 +1,7 @@
 {
   "name": "boxdsl-engine",
   "version": "1.0.0",
-  "description": "BoxDSL Core Engine for parsing and validating software architecture.",
+  "description": "Plug-and-play architecture orchestrator: drop it into any project, define your system in YAML, and generate hallucination-proof blueprints for AI agents.",
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node src/index.ts"
