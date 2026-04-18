@@ -1,5 +1,5 @@
 {
-  "name": "boxdsl",
+  "name": "@pingslayer/boxdsl",
   "version": "1.1.0",
   "description": "Plug-and-play architecture orchestrator: drop it into any project, define your system in YAML, and generate hallucination-proof blueprints for AI agents.",
   "author": "pingslayer",
@@ -21,6 +21,9 @@
     "@types/node": "^20.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "license": "MIT"
 }

@@ -37,7 +37,7 @@ BoxDSL organizes your software into **Boxes**, each with a specific role:
 Install the orchestration engine as a development dependency in your project:
 
 ```bash
-npm install boxdsl --save-dev
+npm install @pingslayer/boxdsl --save-dev
 ```
 
 ### 3. Initialize the Orchestrator
