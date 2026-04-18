@@ -1,4 +1,8 @@
 # BoxDSL — Plug-and-Play Architecture Orchestrator
+
+[![npm version](https://img.shields.io/npm/v/@pingslayer/boxdsl.svg)](https://www.npmjs.com/package/@pingslayer/boxdsl)
+[![license](https://img.shields.io/npm/l/@pingslayer/boxdsl.svg)](https://www.npmjs.com/package/@pingslayer/boxdsl)
+
 > **Hallucination-Proof AI Orchestration via Strict Dependency Graphs.**
 
 BoxDSL is a portable, self-contained architecture engine that you drop into any software project. It validates your system design, calculates the optimal build order, and generates AI-ready blueprints that command implementing agents to build your application with zero architectural drift.
