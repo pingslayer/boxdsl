@@ -8,3 +8,4 @@ requirements/*
 !requirements/.gitkeep
 
 node_modules/
+dist/

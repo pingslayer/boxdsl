@@ -33,24 +33,26 @@ BoxDSL organizes your software into **Boxes**, each with a specific role:
 - **Node.js**: v20 or higher.
 - **TypeScript**: Handled via `ts-node` (installed automatically).
 
-### 2. Drop BoxDSL Into Your Project
-Copy the entire `boxdsl/` folder into your project root:
+### 2. Install BoxDSL
+Install the orchestration engine as a development dependency in your project:
 
-```
-my-project/
-├── app/              <-- Your application code
-├── composer.json     <-- Your project config
-├── boxdsl/           <-- Drop this folder here
-│   ├── src/
-│   ├── docs/
-│   ├── requirements/
-│   ├── architecture.yaml
-│   └── package.json
-└── ...
+```bash
+npm install boxdsl --save-dev
 ```
 
-### 3. Define Your Architecture
-Edit `boxdsl/architecture.yaml` (or copy from `architecture.example.yaml`) to define your system:
+### 3. Initialize the Orchestrator
+To scaffold the architecture environment, run the `init` command from your project root:
+
+```bash
+npx boxdsl init
+```
+
+This creates an isolated `boxdsl/` directory in your project containing:
+- `architecture.yaml`: Your initial system design template.
+- `requirements/`: A folder for your business specs and user stories.
+
+### 4. Define Your Architecture
+Edit `boxdsl/architecture.yaml` to define your custom system topology:
 
 ```yaml
 system: "MySystem"
@@ -70,22 +72,20 @@ boxes:
     outputs: ["UserID"]
 ```
 
-### 4. Define Your Business Requirements
+### 5. Define Your Business Requirements
 Add markdown files to `boxdsl/requirements/` describing the business goals, user stories, and acceptance criteria for your project. The AI agent will read these before writing any code.
 
-### 5. Run the Engine
-Navigate into the `boxdsl/` folder and run:
+### 6. Run the Engine
+From your project root, trigger the orchestration engine to validate the architecture and generate the blueprints:
 
 ```bash
-cd boxdsl
-npm install   # First time only
-npm start
+npx boxdsl start
 ```
 
-The engine will validate your architecture and generate all blueprints into `boxdsl/docs/`.
+The engine will generate all blueprints into `boxdsl/docs/`.
 
-### 6. Feed to AI
-Copy the generated `boxdsl/docs/AI-Onboarding-Prompt.md` mission block and paste it into a fresh AI agent session. The agent will use the blueprints to implement your project.
+### 7. Feed to AI
+Copy the generated `boxdsl/docs/AI-Onboarding-Prompt.md` mission block and paste it into a fresh AI agent session. The agent will use the blueprints to implement your project directly in the root directory.
 
 ---
 
@@ -147,4 +147,4 @@ BoxDSL operates as a **Satellite Architect** for the parent project. The AI agen
 ---
 
 ## ⚖️ License
-Proprietary. All rights reserved. See [LICENSE](LICENSE) for details.
+MIT License. See [LICENSE](LICENSE) for details.
